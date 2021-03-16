@@ -9,7 +9,7 @@ In essence, I wish to be able to go into a folder and find "similar" folders, ie
 In a Camera images folder for example, I can find that some of the images have been copied (and possibly renamed) to another folder. Now deciding whether to delete the duplicated files in which folder is a question that would be difficult to answer if all you have is a file by file comparison. 
 
 ### The solution
-(Pseudocode goes here)
+To show for each folder, a % of files that are duplicated elsewhere, and where those files are.(Pseudocode goes here)
 
 ### Design considerations
 For now, optimization is not the focus. There is no need for speed or memory usage to be a factor (might be an issue later, but we leave this for future time).
@@ -29,7 +29,7 @@ https://www.scootersoftware.com/features.php
 https://www.ultraedit.com/support/tutorials-power-tips/ultracompare/find-duplicates.html
 
 ### Licence
-For now, the licence is "see only, don't touch". As and when it is decided that more contributors or help is needed, then the licence may be opened up.
+For now, the licence is "see only, don't touch" aka "Visible Source". As and when it is decided that more contributors or help is needed, then the licence may be opened up.
 
 ### Initial Creation Date: 9 March 2021
 ### Author: Shafir Ahmad

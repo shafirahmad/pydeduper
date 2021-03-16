@@ -12,14 +12,17 @@ In a Camera images folder for example, I can find that some of the images have b
 To show for each folder, a % of files that are duplicated elsewhere, and where those files are.
 
 ### Goals/Milestones
-1. Given a set of folders, to walk thru folder structiure and find all files, save path, filename, filesize
+1. Given a set of folders, to walk thru folder structure and find all files, save path, filename, filesize
+    - dict? pandas? sqliite?
 2. Sort by filesize
 3. For each filesize, determine hash of some sort
     - filename only
     - md5 or crc of 1st 1k
     - md5 or crc of whole file
+    - contents of each file
     - or some combination, like first 1k, skip 2k, get 1k, skip 4k, get 1k, skip 8k etc
 4. Sort hashes within each filesize (to determine dupes)
+    - run secondary dedupe algo (like full contents comparison)
 5. Walk thru folder structure again, and determine folders with high % of duplication
 6. Send output to csv or as a batch file (which can be execued on windows)
 7. How to determine which dupes to be deleted
@@ -28,8 +31,9 @@ To show for each folder, a % of files that are duplicated elsewhere, and where t
     - filename has least/most % of numbers
     - folder has high dupe% (consider deleting all files in folder)
     - shorter/longer path
-8. Add a GUI (like midnight commander) - show folders side by side
-    - probaby 3 page - left page is selected folder, middle pane is where dupes are found, right page is opened dupe folder
+8. Add a GUI (like midnight commander) - show folders side by side 
+    - probaby 3 pane - left page is selected folder, middle pane is where dupes are found, right page is opened dupe folder
+    - Use tkinter? pygame? QT ?
 9. Test on different scenarios/large no of files/unforeseen file structures
     - what to do about non-standard characters, diff language etc
     - network files

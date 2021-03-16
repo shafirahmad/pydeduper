@@ -33,3 +33,4 @@ For now, the licence is "see only, don't touch" aka "Visible Source". As and whe
 
 ### Initial Creation Date: 9 March 2021
 ### Author: Shafir Ahmad
+### Git: http://www.github.com/shafirahmad/pydeduper

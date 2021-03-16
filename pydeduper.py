@@ -5,6 +5,7 @@ import os
 import sys
 import pandas
 import time
+import hashlib
 
 # Not may not work if __file__ is missing, like in sone IDE or py2exe
 curfolder = os.path.dirname(os.path.realpath(__file__))
@@ -30,6 +31,17 @@ print('Number of files',numFiles)
 print('Number of Directories',numDirs)
 print('Total:',(numDirs + numFiles))
 
+def getfileHash(fileName):
+    with open(fileName, 'rb') as fh:
+        filehash = hashlib.md5()
+        while chunk := fh.read(1024):
+            filehash.update(chunk)
+
+    # digest for binary, hexdigest for string            
+    return filehash.hexdigest()
+
+
+
 def getListOfFiles(dirName, depth=0):
     DirsAndFiles = os.listdir(dirName)
     allFiles = []
@@ -46,8 +58,9 @@ def getListOfFiles(dirName, depth=0):
             totSize += totS
         else:
             fileSize = os.path.getsize(fullPath)
+            filehash = getfileHash(fullPath)
             #allFiles.append(fullPath+", "+str(depth))
-            allFiles.append(fullPath+", "+str(fileSize))
+            allFiles.append(fullPath+", "+str(fileSize)+", "+filehash)
             #allFiles.append(fullPath)
             totSize += fileSize
             numFiles += 1

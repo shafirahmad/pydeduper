@@ -33,7 +33,8 @@ print('Total:',(numDirs + numFiles))
 
 def getfileHash(fileName):
     with open(fileName, 'rb') as fh:
-        filehash = hashlib.md5()
+        #filehash = hashlib.md5()
+        filehash = hashlib.sha1()
         while chunk := fh.read(1024):
             filehash.update(chunk)
 
@@ -72,4 +73,33 @@ thelist, numFiles, totSize =getListOfFiles(startfolder)
 print(numFiles, totSize)
 print(thelist)
 
+items = []
+for item in thelist:
+    item = item.split(", ")
+    items.append(item)
+    print(item)
 
+print("")
+for item in items:
+    print(item)
+
+# Sort items by filesize (as str) and hash
+items.sort(key=lambda x: (x[1],x[2]))
+print("")
+for item in items:
+    print(item)
+
+
+# Find dupes
+dupes = {} 
+fsizes = {}
+for item in items:
+    hash = item[2]
+    if dupes.get(hash,None) == None:
+        dupes[hash] = []
+        fsizes[hash] = item[1]
+    dupes[hash].append(item[0])
+
+for key,value in dupes.items():
+    if (len(value)>1):
+        print(key, fsizes[key], value )

@@ -7,10 +7,12 @@ import pandas
 import time
 import hashlib
 
+CHUNK_SIZE = 1024
+
 # Not may not work if __file__ is missing, like in sone IDE or py2exe
 curfolder = os.path.dirname(os.path.realpath(__file__))
 print(curfolder)
-startfolder = os.path.normpath( 'C:/testdir/' )
+startfolder = os.path.normpath( 'C:/Users/X260Admin/Python/01-git-assignment')
 
 numFiles = 0
 numDirs = 0
@@ -35,7 +37,7 @@ def getfileHash(fileName):
     with open(fileName, 'rb') as fh:
         #filehash = hashlib.md5()
         filehash = hashlib.sha1()
-        while chunk := fh.read(1024):
+        while chunk := fh.read(CHUNK_SIZE):
             filehash.update(chunk)
 
     # digest for binary, hexdigest for string            
@@ -102,4 +104,4 @@ for item in items:
 
 for key,value in dupes.items():
     if (len(value)>1):
-        print(key, fsizes[key], value )
+        print(key, fsizes[key], len(value), value[0] )

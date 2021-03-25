@@ -7,6 +7,8 @@ import pandas
 import time
 import hashlib
 
+CHUNK_SIZE = 1024
+
 # Not may not work if __file__ is missing, like in sone IDE or py2exe
 curfolder = os.path.dirname(os.path.realpath(__file__))
 print(curfolder)
@@ -33,13 +35,13 @@ print('Total:',(numDirs + numFiles))
 
 def getfileHash(fileName):
     with open(fileName, 'rb') as fh:
-        filehash = hashlib.md5()
-        while chunk := fh.read(1024):
+        #filehash = hashlib.md5()
+        filehash = hashlib.sha1()
+        while chunk := fh.read(CHUNK_SIZE):
             filehash.update(chunk)
 
     # digest for binary, hexdigest for string            
     return filehash.hexdigest()
-
 
 
 def getListOfFiles(dirName, depth=0):
@@ -72,4 +74,30 @@ thelist, numFiles, totSize =getListOfFiles(startfolder)
 print(numFiles, totSize)
 print(thelist)
 
+items = []
+for item in thelist:
+    item = item.split(", ")
+    items.append(item)
+    print(item)
 
+
+# Sort items by filesize (as str) and hash
+items.sort(key=lambda x: (int(x[1]),x[2]))
+print("")
+for item in items:
+    print(item)
+
+
+# Find dupes
+dupes = {} 
+fsizes = {}
+for item in items:
+    hash = item[2]
+    if dupes.get(hash,None) == None:
+        dupes[hash] = []
+        fsizes[hash] = item[1]
+    dupes[hash].append(item[0])
+
+for key,value in dupes.items():
+    if (len(value)>1):
+        print(key, fsizes[key], len(value), value[0] )

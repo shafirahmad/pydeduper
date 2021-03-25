@@ -12,7 +12,7 @@ CHUNK_SIZE = 1024
 # Not may not work if __file__ is missing, like in sone IDE or py2exe
 curfolder = os.path.dirname(os.path.realpath(__file__))
 print(curfolder)
-startfolder = os.path.normpath( 'C:/Users/X260Admin/Python/01-git-assignment')
+startfolder = os.path.normpath( 'C:/testdir/' )
 
 numFiles = 0
 numDirs = 0
@@ -42,7 +42,6 @@ def getfileHash(fileName):
 
     # digest for binary, hexdigest for string            
     return filehash.hexdigest()
-
 
 
 def getListOfFiles(dirName, depth=0):
@@ -81,12 +80,9 @@ for item in thelist:
     items.append(item)
     print(item)
 
-print("")
-for item in items:
-    print(item)
 
 # Sort items by filesize (as str) and hash
-items.sort(key=lambda x: (x[1],x[2]))
+items.sort(key=lambda x: (int(x[1]),x[2]))
 print("")
 for item in items:
     print(item)

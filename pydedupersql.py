@@ -10,7 +10,7 @@ import sqlite3
 
 CHUNK_SIZE = 1024
 
-# Not may not work if __file__ is missing, like in sone IDE or py2exe
+# Specify start folder here
 startfolder = os.path.normpath( 'C:/testdir/' )
 
 numFiles = 0

@@ -20,7 +20,7 @@ numCount=0
 con = sqlite3.connect("pydeduper.db")
 cur = con.cursor()
 
-if 1:
+if 0:
     cur.execute(''' DROP TABLE pdfolder ''')
     cur.execute(''' CREATE TABLE pdfolder 
                     (id INTEGER PRIMARY KEY, parent text, name text, full text, numfiles integer)
@@ -31,7 +31,7 @@ if 1:
                ''')
     con.commit()
 
-if 0:
+if 1:
     cur.execute(''' DELETE FROM pdfiles WHERE 1 ''')
     cur.execute(''' DELETE FROM pdfolder WHERE 1 ''')
     con.commit()
@@ -75,10 +75,41 @@ print ("SQL sort")
 for row in cur.execute(''' SELECT * from pdfiles ORDER by size, hash '''):
     print(row)
 
+def getfolderid(folder):
+    for row in cur.execute("SELECT id from pdfolder WHERE full = ?", (folder,)):
+        return row[0]
 
 def getfoldername(id):
     for row in cur.execute("SELECT full FROM pdfolder where id=?", (id,)):
         return row[0]
+
+def getallfolders():
+    rows = []
+    for row in cur.execute("SELECT id, full FROM pdfolder ORDER BY id"):
+        rows.append(row)
+    return rows
+
+def getfilesfromfolder(folder):
+    folderid = getfolderid(folder)
+    rows = []
+    for row in cur.execute("SELECT id, name, size, hash FROM pdfiles WHERE parent = ? ORDER BY id",(folderid,)):
+        rows.append(row)
+    return rows
+
+def getfileswithhash(hash):
+    #print("<<<",hash)
+    rows = []
+    for row in cur.execute("SELECT id, name, size, parent FROM pdfiles WHERE hash = ? ORDER BY id",(hash,)):
+        rows.append(row)
+
+    rows2=[]
+    for row in rows:
+        foldername = getfoldername(row[3])
+        #row = list(row).append(foldername)
+        row2 = list(row)
+        row2.append(foldername)
+        rows2.append(row2)
+    return rows2
 
 def newfile(parent, name, hash, size):
     print("FILE: ",parent, name, hash, size)
@@ -94,7 +125,6 @@ def updatefolder(full, numfiles):
     print("UPFOLDER:", full, numfiles)
     cur.execute(UPDATEFOLDERSQL, (numfiles, full))
     con.commit()
-
 
 def getfileHash(fileName):
     with open(fileName, 'rb') as fh:
@@ -177,6 +207,9 @@ for row in cur.execute(''' SELECT size,count(*) AS c FROM pdfiles GROUP BY size 
     dupesizes.append(row[0])
 print(dupesizes)
 
+
+print("")
+print("Start calculating Hashes")
 for size in dupesizes:
     rows=[]
     for row in cur.execute(''' SELECT id, parent, name FROM pdfiles WHERE size=?  ''',(size,)): rows.append(row)
@@ -213,3 +246,23 @@ for row in rows:
 # - Go folder by folder, get hashes, 
 # - with hashes, find other files with same hashes
 # - so we can find % duplication in folder (no of files iwth dupe hashes/total files in folder)
+print("")
+print("FOLDER DUPLICATION %")
+folders=getallfolders()
+for folder in folders:
+    files = getfilesfromfolder(folder[1])
+    filecount, hashcount = 0, 0
+    for row in files:
+        #print(folder, row)
+        if row[3] != "":
+            hashfiles = getfileswithhash(row[3])
+            first=True
+            for hashfile in hashfiles:
+                if row[0] != hashfile[0]:
+                    if first: 
+                        #print(" ",folder[1],row)
+                        first=False
+                        hashcount +=1
+                    #print("   ",hashfile)
+        filecount+=1
+    if filecount>0: print("% DUPES:", folder[1], 100*hashcount/filecount)

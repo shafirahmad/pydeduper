@@ -128,5 +128,8 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+#Database
+pydeduper.db
+
 #Notes
 notes.txt

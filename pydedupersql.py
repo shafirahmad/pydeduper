@@ -10,7 +10,7 @@ import sqlite3
 
 CHUNK_SIZE = 1024
 
-# Specify start folder here
+# Specify start folder here - pls do make sure this path exists
 startfolder = os.path.normpath( 'C:/testdir/' )
 
 numFiles = 0

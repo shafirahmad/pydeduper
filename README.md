@@ -37,7 +37,7 @@ To show for each folder, a % of files that are duplicated elsewhere, and where t
 9. Test on different scenarios/large no of files/unforeseen file structures
     - what to do about non-standard characters, diff language etc
     - network files
-10. Expand to handle other OS like linux/macos
+10. Expand to handle other OS like linux/macos (path strings, links, and other quirks)
 
 ### Design considerations
 For now, optimization is not the focus. There is no need for speed or memory usage to be a factor (might be an issue later, but we leave this for future time).

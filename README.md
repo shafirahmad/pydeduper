@@ -41,7 +41,7 @@ To show for each folder, a % of files that are duplicated elsewhere, and where t
 
 ### Design considerations
 For now, optimization is not the focus. There is no need for speed or memory usage to be a factor (might be an issue later, but we leave this for future time).
-Also, it is not inherently image centric, I am looking at exact contents duplicates (byte by byte), not near matches or lookalikes - file names shoud not matter. 
+Also, it is not inherently for finding similar images, or those in different compressions/resolutions/cropped. I am looking at exact contents duplicates (byte by byte), not near matches or lookalikes - file names shoud not matter. 
 
 ### Some inspiration / food for thought
 https://asistdl.onlinelibrary.wiley.com/doi/full/10.1002/meet.2011.14504801013

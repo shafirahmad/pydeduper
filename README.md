@@ -60,5 +60,5 @@ https://www.ultraedit.com/support/tutorials-power-tips/ultracompare/find-duplica
 For now, the licence is "see only, don't touch" aka "Visible Source". As and when it is decided that more contributors or help is needed, then the licence may be opened up.
 
 ### Initial Creation Date: 9 March 2021
-### Author: Shafir Ahmad
+### Author: Shafir Ahmad 
 ### Git: http://www.github.com/shafirahmad/pydeduper

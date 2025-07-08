@@ -100,4 +100,4 @@ for item in items:
 
 for key,value in dupes.items():
     if (len(value)>1):
-        print(key, fsizes[key], len(value), value[0] )
+        print(key, fsizes[key], len(value), value[0])

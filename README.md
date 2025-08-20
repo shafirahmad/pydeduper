@@ -1,5 +1,108 @@
-# pydeduper
-Duplicate file finder (with special handling of folders)
+# PyDeduper
+Duplicate file finder with advanced folder analysis capabilities
+
+## Features
+
+- **Duplicate Detection**: Find duplicate files based on content (SHA256 hash by default)
+- **Folder Analysis**: Calculate duplication percentage for each folder
+- **Similar Folder Detection**: Find folders with similar content
+- **Multiple Hash Algorithms**: Support for MD5, SHA1, SHA256, SHA512
+- **Database Persistence**: SQLite database for efficient analysis of large file systems
+- **Flexible Output**: Export results to JSON or CSV
+- **Performance Optimized**: Quick hash for initial filtering, full hash only when needed
+- **Configurable**: Extensive configuration options via command line or environment variables
+
+## Installation
+
+### From Source
+```bash
+git clone https://github.com/shafirahmad/pydeduper.git
+cd pydeduper
+pip install -e .
+```
+
+### Using pip (once published)
+```bash
+pip install pydeduper
+```
+
+## Usage
+
+### Basic Usage
+```bash
+# Scan a single directory
+python -m src.cli /path/to/directory
+
+# Scan multiple directories
+python -m src.cli /path/to/dir1 /path/to/dir2
+
+# With verbose output
+python -m src.cli -v /path/to/directory
+```
+
+### Advanced Options
+```bash
+# Use different hash algorithm
+python -m src.cli --hash sha512 /path/to/directory
+
+# Export results to JSON
+python -m src.cli --export results.json /path/to/directory
+
+# Find folders with >= 70% similarity
+python -m src.cli --find-similar 70 /path/to/directory
+
+# Show only folders with >= 50% duplication
+python -m src.cli --folder-threshold 50 /path/to/directory
+
+# Ignore hidden files and follow symlinks
+python -m src.cli --ignore-hidden --follow-links /path/to/directory
+```
+
+### Command Line Options
+
+| Option | Description |
+|--------|-------------|
+| `-v, --verbose` | Enable verbose output |
+| `-d, --debug` | Enable debug output |
+| `--hash {md5,sha1,sha256,sha512}` | Hash algorithm to use (default: sha256) |
+| `--db PATH` | Database file path (default: data/pydeduper.db) |
+| `--no-db` | Don't use database, analyze in memory only |
+| `--all` | Show all duplicate groups (not just top 10) |
+| `--export PATH` | Export results to file |
+| `--export-format {json,csv}` | Export format (default: json) |
+| `--min-size BYTES` | Minimum file size to consider |
+| `--folder-threshold PCT` | Minimum duplication % to show folders |
+| `--find-similar PCT` | Find folders with similarity >= PCT% |
+| `--ignore-hidden` | Ignore hidden files and folders |
+| `--follow-links` | Follow symbolic links |
+
+## Project Structure
+
+```
+pydeduper/
+├── src/
+│   ├── core/
+│   │   ├── scanner.py      # File system traversal
+│   │   ├── hasher.py       # Hash calculation
+│   │   └── analyzer.py     # Duplicate detection
+│   ├── storage/
+│   │   ├── database.py     # SQLite operations
+│   │   └── models.py       # Data models
+│   ├── cli.py              # Command-line interface
+│   └── config.py           # Configuration
+├── tests/                  # Unit tests
+├── data/                   # Database storage
+└── README.md
+```
+
+## How It Works
+
+1. **Scanning**: Traverses the file system to collect file information
+2. **Size Grouping**: Groups files by size (files with unique sizes can't be duplicates)
+3. **Quick Hash**: For large files, calculates a quick hash of the first 1KB
+4. **Full Hash**: Only calculates full hash for files with matching quick hashes
+5. **Analysis**: Identifies duplicate groups and calculates folder statistics
+6. **Reporting**: Displays results with wasted space calculations and recommendations
 
 ### The problem
 The idea for this came about as I have not found a file deduplicator that can let me know the rate of duplication across folders. Most dedupe software is focused on the file itself, and not the directory structure.

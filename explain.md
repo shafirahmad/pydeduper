@@ -339,7 +339,7 @@ def get_connection(self):
 Add to HashAlgorithm enum and algorithm_map in FileHasher.
 
 ### 2. New Storage Backends
-Implement Database interface for MongoDB, PostgreSQL, etc.
+Implement Database interface for MongoDB, PostgreSQL, mySQL etc.
 
 ### 3. GUI Integration
 Use core modules directly, bypassing CLI:
